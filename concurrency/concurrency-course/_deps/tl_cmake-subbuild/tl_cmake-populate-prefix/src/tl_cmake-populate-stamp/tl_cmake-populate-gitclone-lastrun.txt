@@ -1,0 +1,15 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=git
+command=/usr/bin/cmake;-P;/workspace/concurrency-course/_deps/tl_cmake-subbuild/tl_cmake-populate-prefix/tmp/tl_cmake-populate-gitclone.cmake
+source_dir=/workspace/concurrency-course/_deps/tl_cmake-src
+work_dir=/workspace/concurrency-course/_deps
+repository=https://github.com/TartanLlama/tl-cmake.git
+remote=origin
+init_submodules=TRUE
+recurse_submodules=--recursive
+submodules=
+CMP0097=NEW
+

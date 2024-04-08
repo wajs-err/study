@@ -1,0 +1,13 @@
+__pycache__/
+
+bin/
+
+env/
+venv/
+
+.solutions
+
+activate
+complete.bash
+
+.idea/

@@ -1,0 +1,125 @@
+- group:    Tutorial
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: tutorial/aplusb
+      score: 100
+
+- group:    Mutual Exclusion / Part I
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: mutex/deadlock
+      score: 100
+    - task: mutex/dining
+      score: 100
+    - task: mutex/mutexed
+      score: 100
+
+- group:    Mutual Exclusion / Part II
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: mutex/livelock
+      score: 100
+    - task: mutex/mutex
+      score: 100
+    - task: mutex/spinlock
+      score: 100
+    - task: mutex/try-lock
+      score: 100
+
+- group:    Condition Variables
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: cond/condvar
+      score: 200
+    - task: cond/semaphore
+      score: 150
+    - task: cond/barrier
+      score: 150
+    - task: cond/wait_group
+      score: 100
+
+- group:    Futures / Std
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: futures/std
+      score: 200
+
+- group:    Tasks / Part I
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: tasks/thread-pool
+      score: 400
+
+- group:    Fibers
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: fibers/coro
+      score: 200
+    - task: fibers/yield
+      score: 300
+    - task: fibers/sleep_for
+      score: 300
+    - task: fibers/mutex
+      score: 500
+
+- group:    Cache Coherency
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: mutex/queue
+      score: 150
+
+- group:    Tasks / Part II
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: tasks/executors
+      score: 400
+
+- group:    Futures / Functional
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: futures/fun
+      score: 500
+
+- group:    Tasks / Part III / Scheduler
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: lockfree/steal
+      score: 200
+    - task: tasks/scheduler
+      score: 600
+
+- group:    Lock-Free /
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: lockfree/stack
+      score: 100
+    - task: lockfree/shared_ptr
+      score: 100
+    - task: lockfree/queue
+      score: 100
+
+- group:    Futures / Lazy
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: futures/lazy
+      score: 1000
+
+- group:    My Exe
+  start:    01-01-2021 12:00
+  deadline: 01-01-2031 23:59
+  tasks:
+    - task: my/exe
+      score: 10

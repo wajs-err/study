@@ -1,0 +1,65 @@
+buildType:
+  default: debug
+  choices:
+    debug:
+      short: Debug
+      long: Emit debug information
+      buildType: Debug
+    release:
+      short: Release
+      long: Optimize generated code
+      buildType: Release
+
+sanitizers:
+  default: off
+  choices:
+    off:
+      short: SanitizersOff
+      long: Instrumentation disabled
+      settings:
+        ASAN: ""
+        TSAN: ""
+    asan:
+      short: ASan
+      long: Instrument with Address Sanitizer
+      settings:
+        ASAN: ON
+        TSAN: ""
+    tsan:
+      short: TSan
+      long: Instrument with Thread Sanitizer
+      settings:
+        TSAN: ON
+        ASAN: ""
+
+execution:
+  default: threads
+  choices:
+    threads:
+      short: Threads
+      long: Multi-threaded execution
+      settings:
+        TWIST_FIBERS: ""
+        TWIST_FAST_FIBER_QUEUES: ""
+        TWIST_PRINT_STACKS: ""
+    fibers:
+      short: Fibers
+      long: Deterministic simulation with fibers
+      settings:
+        TWIST_FIBERS: ON
+        TWIST_FAST_FIBER_QUEUES: ON
+        TWIST_PRINT_STACKS: ON
+
+faultInjection:
+  default: off
+  choices:
+    off:
+      short: FaultInjectionOff
+      long: Fault injection disabled
+      settings:
+        TWIST_FAULTY: ""
+    on:
+      short: FaultInjectionOn
+      long: Fault injection enabled
+      settings:
+        TWIST_FAULTY: ON

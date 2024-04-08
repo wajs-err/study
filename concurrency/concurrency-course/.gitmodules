@@ -1,0 +1,6 @@
+[submodule "client"]
+	path = client
+	url = https://gitlab.com/Lipovsky/clippy
+[submodule "docker/client"]
+	path = docker/client
+	url = https://gitlab.com/Lipovsky/pequod
