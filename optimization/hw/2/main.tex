@@ -1,0 +1,102 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{faktor} 
+\usepackage{mathrsfs}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage[left=2cm,right=2cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\orb}{Orb}
+\DeclareMathOperator{\stab}{Stab}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\inn}{Inn}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator{\conv}{conv}
+
+\newcommand*{\QED}{\null\nobreak\hfill\ensuremath{\square}}%
+\newcommand*{\R}{\mathbb{R}}
+
+\title{Convex sets}
+\author{Ковалев Алексей}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\paragraph{1.} $ S \subset \R^n $ выпукло.
+\begin{itemize}
+    \item Рассмотрим произвольные $ x,\, y \in \interior S $. Покажем что  $ \forall \theta \in [0; 1] \; z = \theta x + (1 - \theta) y \in \interior S $. \\
+        В силу того что $x \in \interior S$ найдется открытый шар $B_r(x) \subset S$, причем $ \forall \tilde x \in B_r(x) \; \theta \tilde x + (1 - \theta) y \in S $, так как $S$ выпукло. Тогда $ \theta B_r(x) + (1 - \theta) y = B_{\theta r}(z) \subset S $. Значит $ z \in \interior S $. \QED 
+    \item Рассмотрим произвольные $x,\, y \in \overline S$. Покажем что $ \forall \theta \in [0; 1] \; z = \theta x + (1 - \theta) y \in \overline S $. \\
+        Cуществуют $x_n \to x,\, y_n \to y :\: \{ x_n \} \subset S,\, \{ y_n \} \subset S$. Пусть $ z_n = \theta x_n + (1 - \theta) y_n $. Тогда $ z_n \to \theta x + (1 - \theta) y = z $, причем $ \{ z_n \} \subset S $, так как $S$ выпукло. Значит $z \in \overline S$. \QED
+\end{itemize}
+
+
+\paragraph{2.}  Пусть $ X = \operatorname{conv}\left\{xx^{\top} :\: x \in \R^n,\, \| x \|_2 = 1 \right\},\, Y = \{ A \in \mathbb{S}^n_+ :\: \tr A = 1 \} $
+\begin{itemize}
+    \item Рассмотрим $ x x^{\top} \in X $. Ясно что $ \tr(x x^{\top}) = \| x \|_2^2 = 1 $ и $ (x x^{\top})_{ij} = x_i x_j = x_j x_i = (x x^{\top})_{ji} $. Также ясно что $ x x^{\top} \succeq 0 $, так как $ \forall y \neq 0 \; y^{\top} x x^{\top} y = (x^{\top} y)^{\top} x^{\top} y = \| x^{\top} y \|_2^2 > 0 $. Значит $ x x^{\top} \in Y $ и $ X \subset Y $.
+    \item Рассмотрим $ A \in Y $. Воспользуемся SVD разложением матрицы $A$ в виде
+        \[ A = \sum\limits_{k = 1}^{\rk A} \sigma_k u_k v_k^{\top} \]
+        Матрица $A$ симметрична, значит $ A = A^{\top}$. Тогда $A u_k = \sigma_k v_k,\, A v_k = \sigma_k u_k $, то есть $ (A - \sigma_k I)(u_k - v_k) = 0 $. Тогда либо $u_k = v_k$, либо $A = \sigma_k I$, причем $\sigma_k I u_k = \sigma_k v_k$. Значит в любом случае $u_k = v_k$. Тогда также ясно, что $\sigma_k = \lambda_k$, так как $ A u_k = \sigma_k u_k $. \\
+        $ 1 = \tr A = \sum\limits_{k = 1}^n \lambda_k = \sum\limits_{k = 1}^n \sigma_k = \sum\limits_{k = 1}^{\rk A} \sigma_k $, причем все собственные числа неотрицательны, так как если $A u_k = \lambda_k u_k$, то $ u_k^{\top} A u_k = \lambda_k \| u_k \|_2^2 \geqslant 0 $. Значит SVD разложение матрицы $A$ имеет вид
+        \[ A = \sum\limits_{k = 1}^{\rk A} \sigma_k u_k u_k^{\top} \in \operatorname{conv} \left\{ x x^{\top} :\: \| x \|_2 = 1 \right\} = X \]
+        по определению выпуклой оболочки.
+\end{itemize}
+Получаем, что $ X = Y $. \QED 
+
+
+\paragraph{3.} $ K \subset \R_+^n $ -- конус. $ N = \{ x :\: x \in K,\, \sum\limits_{k = 1}^n x_k = \| x \|_1 = 1 \} $.
+\begin{itemize}
+    \item Пусть $K$ -- выпуклый конус. Рассмотрим $ z = \theta x + (1 - \theta) y $, где $ x,\, y \in N,\, \theta \in [0; 1] $. Ясно что $ \sum\limits_{k = 1}^n z_k = \sum\limits_{k = 1}^n \theta x_k + (1 - \theta) y_k = \theta + (1 - \theta) = 1 $ и $ z \in K $ в силу того что $K$ -- выпуклый конус. Значит $ z \in N $, то есть $N$ -- выпуклое множество.
+    \item Пусть $N$ -- выпуклое множество. Рассмотрим $c = \theta_1 x + \theta_2 y$, где $x,\, y \in K,\, \theta_1,\, \theta_2 \geqslant 0$. Если $x \in K$, то 
+        \[ \frac{x}{\| x \|_1} \in K,\, \frac{x}{\| x \|_1} \in N \]
+        Ясно также, что $\|c\|_1 = \theta_1 \|x\|_1 + \theta_2 \|y\|_1$ и значит
+        \[ 1 - \frac{\theta_1 \|x\|_1}{\|c\|_1} = \frac{\theta_2 \|y\|_1}{\|c\|_1} \]
+        Тогда в силу выпуклости $N$
+        \[ \frac{\theta_1 \|x\|_1}{\|c\|_1} \cdot \frac{x}{\|x\|_1} + \frac{\theta_2 \|y\|_1}{\|c\|_1} \cdot \frac{y}{\|y\|_1} \in N \]
+        \[ \|c\|_1 \cdot \left( \frac{\theta_1}{\|c\|_1} \cdot x + \frac{\theta_2}{\|c\|_1} \cdot y \right) = \theta_1 x + \theta_2 y \in K \]
+        Получаем, что $K$ -- выпуклый конус.
+\end{itemize}
+Таким образом, равносильность выпуклости этих множеств доказана. \QED
+
+
+\paragraph{4.} $ X = \{ x :\: x \in \R^2,\, e^{x_1} \leqslant x_2 \} $. Рассмотрим $z = \theta x + (1 - \theta) y$, где $ x,\, y \in X,\, \theta \in [0; 1] $. Справедливы неравенства $ e^{x_1} \leqslant x_2 $ и $ e^{y_1} \leqslant y_2 $. 
+\begin{equation*}
+\begin{aligned}
+    z_2 &= \theta x_2 + (1 - \theta) y_2 \geqslant \theta e^{x_1} + (1 - \theta) e^{y_1} = e^{x_1} \left( \theta + (1 - \theta) e^{y_1 - x_1} \right) \\
+    &= e^{x_1} \left( \theta + (1 - \theta) \sum\limits_{k = 0}^\infty \frac{(y_1 - x_k)^k}{k!} \right) = e^{x_1} \left( \theta + 1 - \theta + (1 - \theta) \sum\limits_{k = 1}^\infty \frac{(y_1 - x_k)^k}{k!} \right) \\ 
+    &= e^{x_1} \left( 1 + (1 - \theta) \sum\limits_{k = 1}^\infty \frac{(y_1 - x_k)^k}{k!} \right) \geqslant e^{x_1} \left( 1 + \sum\limits_{k = 1}^\infty \frac{(1 - \theta)^k (y_1 - x_1)^k}{k!} \right) \\
+    &= e^{x_1} \cdot e^{(1 - \theta) (y_1 - x_1)} = e^{x_1 - (1 - \theta) x_1 + (1 - \theta) y_1} = e^{\theta x_1 + (1 - \theta) y_1} = e^{z_1} 
+\end{aligned}
+\end{equation*}
+То есть $z_2 \geqslant e^{z_1}$, а значит $ z \in X $ и $X$ выпукло. \QED
+
+
+\paragraph{5.} Будем считать, что в условии опечатка и будем решать при условии нестрогого убывания. Будем также считать, что по направлению $0 \in \R^n$ функция нестрого убывает (иначе такое множество не будет конусом). \\
+Пусть $ f :\: \R^n \to \R$. Функция убывает по направлению $ 0 \neq e \in \R^n $ в точке $x$ тогда и только тогда, когда $ \frac{\partial f(x)}{\partial e} = \langle \nabla f(x),\, e \rangle \leqslant 0 $. Тогда множество направлений, по которым функция убывает в точке $x$, есть $ K = \{ e :\: \nabla f^{\top}(x) e \leqslant 0 \} $. Причем неравенство $ \nabla f^{\top}(x) e \leqslant 0 $ задает полупространство, которое очевидно является выпуклым. Остается показать, что множество $K$ является конусом. Непосредственно проверим это: пусть $e \in K,\, \theta \geqslant 0$. Тогда $\theta e \in K$, так как $\langle \nabla f^{\top}(x),\, \theta e \rangle = \theta \langle \nabla f^{\top}(x),\, e \rangle \leqslant 0$. Значит $K$ -- выпуклый конус. \QED \\
+Здесь мы воспользовались тем, что конус, который является выпуклым множеством, является и выпуклым конусом. Это верно, так как если $K$ -- конус и выпуклое множество, то 
+\[ \theta_1 x + \theta_2 y = (\theta_1 + \theta_2) \left(\frac{\theta_1}{\theta_1 + \theta_2} x + \frac{\theta_2}{\theta_1 + \theta_2} y\right) = (\theta_1 + \theta_2) (\lambda x + (1 - \lambda) y) \in K, \]
+где $\theta_1,\, \theta_2 \geqslant 0,\, \lambda = \frac{\theta_1}{\theta_1 + \theta_2} \in [0; 1],\, x,\, y \in K$. (Случай $\theta_1 = \theta_2 = 0$ очевиден).
+
+
+\paragraph{6.} $ S = \{ a :\: a \in \R^k,\, p(0) = 1,\, |p(t)| \leqslant 1,\, \alpha \leqslant t \leqslant \beta  \} $, где $ p(t) = a_1 + a_2 t + \dotsc + a_k t^{k - 1} $. Заметим для начала, что $p(t) = a^{\top} x$, где $x$ -- вектор, такой что $x_i = t^{i - 1},\, i = 1,\,2\,\dotsc,\,k$. Покажем, что $S$ -- выпуклое множество. Пусть $a,\, b \in S,\, \theta \in [0; 1]$. Тогда $c = \theta a + (1 - \theta) b \in S$, так как 
+\begin{itemize}
+    \item $ (c^{\top} x)(0) = \theta (a^{\top} x)(0) + (1 - \theta) (b^{\top} x)(0) = \theta + (1 - \theta) = 1 $
+    \item $ \left|(c^{\top} x)(t)\right| = \left|\theta (a^{\top} x)(t) + (1 - \theta) (b^{\top} x)(t)\right| \leqslant \theta \left| (a^{\top}x)(t) \right| + (1 - \theta) \left| (b^{\top} x)(t) \right| \leqslant \theta + (1 - \theta) \leqslant 1$ при $\alpha \leqslant t \leqslant \beta$
+\end{itemize}
+То есть действительно $c \in S$.
+
+\noindent \textbf{Ответ:} множество $S$ является выпуклым.
+
+
+\end{document}

@@ -1,0 +1,126 @@
+digraph G {
+rankdir = TB;
+compound = true;
+label = <<b><br/>Computation main.10</b>>;
+labelloc = t;
+// Disable the tooltip.  Interestingly, "" doesn't work!
+tooltip = " ";
+// DOT graphs accept a stylesheet as a URI.  So naturally, an inline
+// stylesheet is a data URI!
+stylesheet=<
+  data:text/css,
+  @import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+  svg text {
+    font-family: 'Roboto';
+    font-size: 12px;
+  }
+
+    %23node8:hover ~ %23edge9 text { fill: %231976d2; }
+  %23node8:hover ~ %23edge9 path { stroke: %231976d2; stroke-width: .2em; }
+  %23node8:hover ~ %23edge9 polygon { fill: %231976d2; stroke: %231976d2; stroke-width: .2em; }
+
+  %23node9:hover ~ %23edge9 text { fill: %23d32f2f; }
+  %23node9:hover ~ %23edge9 path { stroke: %23d32f2f; stroke-width: .2em; }
+  %23node9:hover ~ %23edge9 polygon { fill: %23d32f2f; stroke: %23d32f2f; stroke-width: .2em; }
+
+  %23node7:hover ~ %23edge8 text { fill: %231976d2; }
+  %23node7:hover ~ %23edge8 path { stroke: %231976d2; stroke-width: .2em; }
+  %23node7:hover ~ %23edge8 polygon { fill: %231976d2; stroke: %231976d2; stroke-width: .2em; }
+
+  %23node8:hover ~ %23edge8 text { fill: %23d32f2f; }
+  %23node8:hover ~ %23edge8 path { stroke: %23d32f2f; stroke-width: .2em; }
+  %23node8:hover ~ %23edge8 polygon { fill: %23d32f2f; stroke: %23d32f2f; stroke-width: .2em; }
+
+  %23node6:hover ~ %23edge7 text { fill: %231976d2; }
+  %23node6:hover ~ %23edge7 path { stroke: %231976d2; stroke-width: .2em; }
+  %23node6:hover ~ %23edge7 polygon { fill: %231976d2; stroke: %231976d2; stroke-width: .2em; }
+
+  %23node7:hover ~ %23edge7 text { fill: %23d32f2f; }
+  %23node7:hover ~ %23edge7 path { stroke: %23d32f2f; stroke-width: .2em; }
+  %23node7:hover ~ %23edge7 polygon { fill: %23d32f2f; stroke: %23d32f2f; stroke-width: .2em; }
+
+  %23node5:hover ~ %23edge6 text { fill: %231976d2; }
+  %23node5:hover ~ %23edge6 path { stroke: %231976d2; stroke-width: .2em; }
+  %23node5:hover ~ %23edge6 polygon { fill: %231976d2; stroke: %231976d2; stroke-width: .2em; }
+
+  %23node6:hover ~ %23edge6 text { fill: %23d32f2f; }
+  %23node6:hover ~ %23edge6 path { stroke: %23d32f2f; stroke-width: .2em; }
+  %23node6:hover ~ %23edge6 polygon { fill: %23d32f2f; stroke: %23d32f2f; stroke-width: .2em; }
+
+  %23node5:hover ~ %23edge5 text { fill: %231976d2; }
+  %23node5:hover ~ %23edge5 path { stroke: %231976d2; stroke-width: .2em; }
+  %23node5:hover ~ %23edge5 polygon { fill: %231976d2; stroke: %231976d2; stroke-width: .2em; }
+
+  %23node6:hover ~ %23edge5 text { fill: %23d32f2f; }
+  %23node6:hover ~ %23edge5 path { stroke: %23d32f2f; stroke-width: .2em; }
+  %23node6:hover ~ %23edge5 polygon { fill: %23d32f2f; stroke: %23d32f2f; stroke-width: .2em; }
+
+  %23node4:hover ~ %23edge4 text { fill: %231976d2; }
+  %23node4:hover ~ %23edge4 path { stroke: %231976d2; stroke-width: .2em; }
+  %23node4:hover ~ %23edge4 polygon { fill: %231976d2; stroke: %231976d2; stroke-width: .2em; }
+
+  %23node5:hover ~ %23edge4 text { fill: %23d32f2f; }
+  %23node5:hover ~ %23edge4 path { stroke: %23d32f2f; stroke-width: .2em; }
+  %23node5:hover ~ %23edge4 polygon { fill: %23d32f2f; stroke: %23d32f2f; stroke-width: .2em; }
+
+  %23node3:hover ~ %23edge3 text { fill: %231976d2; }
+  %23node3:hover ~ %23edge3 path { stroke: %231976d2; stroke-width: .2em; }
+  %23node3:hover ~ %23edge3 polygon { fill: %231976d2; stroke: %231976d2; stroke-width: .2em; }
+
+  %23node5:hover ~ %23edge3 text { fill: %23d32f2f; }
+  %23node5:hover ~ %23edge3 path { stroke: %23d32f2f; stroke-width: .2em; }
+  %23node5:hover ~ %23edge3 polygon { fill: %23d32f2f; stroke: %23d32f2f; stroke-width: .2em; }
+
+  %23node2:hover ~ %23edge2 text { fill: %231976d2; }
+  %23node2:hover ~ %23edge2 path { stroke: %231976d2; stroke-width: .2em; }
+  %23node2:hover ~ %23edge2 polygon { fill: %231976d2; stroke: %231976d2; stroke-width: .2em; }
+
+  %23node4:hover ~ %23edge2 text { fill: %23d32f2f; }
+  %23node4:hover ~ %23edge2 path { stroke: %23d32f2f; stroke-width: .2em; }
+  %23node4:hover ~ %23edge2 polygon { fill: %23d32f2f; stroke: %23d32f2f; stroke-width: .2em; }
+
+  %23node9:hover ~ %23edge10 text { fill: %231976d2; }
+  %23node9:hover ~ %23edge10 path { stroke: %231976d2; stroke-width: .2em; }
+  %23node9:hover ~ %23edge10 polygon { fill: %231976d2; stroke: %231976d2; stroke-width: .2em; }
+
+  %23node10:hover ~ %23edge10 text { fill: %23d32f2f; }
+  %23node10:hover ~ %23edge10 path { stroke: %23d32f2f; stroke-width: .2em; }
+  %23node10:hover ~ %23edge10 polygon { fill: %23d32f2f; stroke: %23d32f2f; stroke-width: .2em; }
+
+  %23node1:hover ~ %23edge1 text { fill: %231976d2; }
+  %23node1:hover ~ %23edge1 path { stroke: %231976d2; stroke-width: .2em; }
+  %23node1:hover ~ %23edge1 polygon { fill: %231976d2; stroke: %231976d2; stroke-width: .2em; }
+
+  %23node3:hover ~ %23edge1 text { fill: %23d32f2f; }
+  %23node3:hover ~ %23edge1 path { stroke: %23d32f2f; stroke-width: .2em; }
+  %23node3:hover ~ %23edge1 polygon { fill: %23d32f2f; stroke: %23d32f2f; stroke-width: .2em; }
+
+>
+
+94365038754336 [label=<<b>Parameter 0</b><br/>f32[1337]>, shape=rect, tooltip="", style="filled", fontcolor="black", color="#cbae82", fillcolor="#ffe0b2"];
+94365036406624 [label=<<b>Parameter 1</b><br/>f32[1337]>, shape=rect, tooltip="", style="filled", fontcolor="black", color="#cbae82", fillcolor="#ffe0b2"];
+94365034917792 [label=<<b>sine.3</b><br/>f32[1337]>, shape=rect, tooltip="xla_computation(f)/jit(main)/sin
+source: /tmp/ipykernel_232267/3416894376.py:2", style="filled", fontcolor="black", color="#9e9e9e", fillcolor="white"];
+94365034160384 [label=<<b>cosine.4</b><br/>f32[1337]>, shape=rect, tooltip="xla_computation(f)/jit(main)/cos
+source: /tmp/ipykernel_232267/3416894376.py:2", style="filled", fontcolor="black", color="#9e9e9e", fillcolor="white"];
+94365037434176 [label=<<b>subtract.5</b><br/>f32[1337]>, shape=rect, tooltip="xla_computation(f)/jit(main)/sub
+source: /tmp/ipykernel_232267/3416894376.py:2", style="filled", fontcolor="black", color="#9e9e9e", fillcolor="white"];
+94365037483952 [label=<<b>multiply.6</b><br/>f32[1337]>, shape=rect, tooltip="xla_computation(f)/jit(main)/mul
+source: /tmp/ipykernel_232267/3416894376.py:2", style="filled", fontcolor="black", color="#9e9e9e", fillcolor="white"];
+94365038832336 [label=<<b>negate.7</b><br/>f32[1337]>, shape=rect, tooltip="xla_computation(f)/jit(main)/neg
+source: /tmp/ipykernel_232267/3416894376.py:2", style="filled", fontcolor="black", color="#9e9e9e", fillcolor="white"];
+94365032054928 [label=<<b>exponential.8</b><br/>f32[1337]>, shape=rect, tooltip="xla_computation(f)/jit(main)/exp
+source: /tmp/ipykernel_232267/3416894376.py:2", style="filled", fontcolor="black", color="#9e9e9e", fillcolor="white"];
+94365038051568 [label=<<b>tuple.9</b><br/>(f32[1337])>, shape=rect, tooltip="", style="filled", fontcolor="black", color="#9e9e9e", fillcolor="white"];
+cluster_94365038627392 [label=<ROOT>, shape=circle, tooltip=" ", style="filled", fontcolor="black", color="#8c7b75", fillcolor="#bcaaa4"];
+94365038754336 -> 94365034917792 [arrowhead=empty tooltip="Arg_0.1 -> sine.3" ];
+94365036406624 -> 94365034160384 [arrowhead=empty tooltip="Arg_1.2 -> cosine.4" ];
+94365034917792 -> 94365037434176 [arrowhead=empty tooltip="sine.3 -> subtract.5"  headlabel="0", labeldistance=2];
+94365034160384 -> 94365037434176 [arrowhead=empty tooltip="cosine.4 -> subtract.5"  headlabel="1", labeldistance=2];
+94365037434176 -> 94365037483952 [arrowhead=empty tooltip="subtract.5 -> multiply.6"  headlabel="0", labeldistance=2];
+94365037434176 -> 94365037483952 [arrowhead=empty tooltip="subtract.5 -> multiply.6"  headlabel="1", labeldistance=2];
+94365037483952 -> 94365038832336 [arrowhead=empty tooltip="multiply.6 -> negate.7" ];
+94365038832336 -> 94365032054928 [arrowhead=empty tooltip="negate.7 -> exponential.8" ];
+94365032054928 -> 94365038051568 [arrowhead=empty tooltip="exponential.8 -> tuple.9" ];
+94365038051568 -> cluster_94365038627392 [tooltip=" "];
+}

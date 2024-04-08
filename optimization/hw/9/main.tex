@@ -1,0 +1,134 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage{amsmath}
+\usepackage{faktor} 
+\usepackage{mathrsfs}
+\usepackage[english,russian]{babel}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage[shortlabels]{enumitem}
+\usepackage[left=2cm,right=2cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\orb}{Orb}
+\DeclareMathOperator{\stab}{Stab}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\inn}{Inn}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\cone}{cone}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\rint}{rint}
+\DeclareMathOperator{\aff}{aff}
+
+\newcommand*{\QED}{\null\nobreak\hfill\ensuremath{\square}}
+\newcommand*{\R}{\mathbb{R}}
+
+\title{Gradient descent}
+\author{Ковалев Алексей}
+\date{}
+\begin{document}
+
+\maketitle
+
+\paragraph{1.} Пусть для функции $f$ для любых $x$, $y$ выполняется неравенство
+\[ f(y) \leqslant f(x) + \nabla f(x)^\top (y - x) + \frac12 L \| y - x \|_2^2 \]
+Покажем, что градиентный спуск для нее достигает точки $x$, такой что $\| \nabla f(x) \|_2 \leqslant \varepsilon$ за $ O(1/\varepsilon^2) $ итераций. \\
+Положим $ y = x^{k + 1} = x^k - \alpha \nabla f(x^k) $. Тогда
+\[ f(x^{k + 1}) \leqslant f(x^k) - \alpha \nabla f(x^k)^\top \nabla f(x^k) + \frac12 L \| \alpha \nabla f(x^k) \|_2^2 = f(x^k) - \left( 1 - \frac12 L \alpha \right) \alpha \| \nabla f(x^k) \|_2^2 \]
+Воспользуемся условием $\alpha \leqslant \frac{1}{L}$, получим $1 - \frac12 L \alpha \geqslant \frac12$, а значит
+\[ \frac12 \alpha \| f(x^k) \|_2^2 \leqslant \left( 1 - \frac12 L \alpha \right) \alpha \| \nabla f(x^k) \|_2^2 \leqslant f(x^k) - f(x^{k + 1}) \]
+\[ \| f(x^k) \|_2^2 \leqslant \frac{2}{\alpha} \left( f(x^k) - f(x^{k + 1}) \right) \]
+Просуммировав последнее неравенство по $k$, получим
+\[ \sum_{k = 0}^n \| \nabla f(x^k) \|_2^2 \leqslant \sum_{k = 0}^n \frac{2}{\alpha} \left( f(x^k) - f(x^{k + 1}) \right) = \frac{2}{\alpha} \left( f(x^0) - f^\ast \right) \]
+Сумма $n + 1$ неотрицательных слагаемых не превосходит $\frac{2}{\alpha} \left( f(x^0) - f^\ast \right)$, значит минимальное из них можно оценить как
+\[ \min_{k = 0 \dotsc n} \| \nabla f(x^k) \|_2^2 \leqslant \frac{2}{\alpha (k + 1)} \left( f(x^0) - f^\ast \right) \]
+\[ \varepsilon^2 \leqslant \frac{2}{\alpha (k + 1)} \left( f(x^0) - f^\ast \right) \]
+\[ k + 1 \leqslant \frac{2}{\alpha \varepsilon^2} \left( f(x^0) - f^\ast \right) \]
+То есть $k = O(1/\varepsilon^2). \QED $
+
+
+\paragraph{2.} Код смотри ниже. Из графика можно сделать вывод, что сходимость метода и ее скорость не зависят от размерности задачи.
+
+
+\title{Subgradient descent}
+\maketitle
+
+\paragraph{1.} Рассмотрим метод субградиентого спуска $x^{k + 1} = x^k - \alpha_k g_k,\, g_k \in \partial f(x^k)$. Отсюда получаем
+\[ x^{k + 1} - x^\ast = x^k - x^\ast - \alpha_k g_k \]
+\[ \langle x^{k + 1} - x^\ast,\, x^{k + 1} - x^\ast \rangle = \langle x^k - x^\ast - \alpha_k g_k,\, x^k - x^\ast - \alpha_k g_k \rangle \]
+\[ \| x^{k + 1} - x^\ast \|_2^2 = \| x^k - x^\ast \|_2^2 + \alpha_k^2 \|g_k\|_2^2 - 2 \alpha_k g_k^\top (x^k - x^\ast) \]
+По определению субградиента $g_k^\top (x^\ast - x^k) \leqslant f(x^\ast) - f(x^k) = f^\ast - f(x^k)$. Отсюда
+\[ -2\alpha_k g_k^\top (x_k - x^\ast) \leqslant -2\alpha_k \left( f(x_k) - f^\ast \right) \]
+Откуда получаем
+\[ \| x^{k + 1} - x^\ast \|_2^2 \leqslant \| x^k - x^\ast \|_2^2 - 2\alpha_k \left( f(x^k) - f^\ast \right) + \alpha_k^2 \| g_k \|_2^2 \]
+\[ 2\alpha_k \left( f(x^k) - f^\ast \right) \leqslant \| x^k - x^\ast \|_2^2 + \alpha_k^2 \| g_k \|_2^2 - \| x^{k + 1} - x^\ast \|_2^2 \]
+Пусть $\|g_k\|_2 \leqslant G$ для любого $k$ и $\| x^0 - x^\ast \|_2 \leqslant R$. Тогда суммируя последнее неравенство по $k$ от 0 до $n$
+\[ 2 \sum_{k = 1}^n \alpha_k \left( f(x^k) - f^\ast \right) \leqslant \| x^0 - x^\ast \|_2^2 - \|x^{n + 1} - x^\ast \|_2^2 + G^2 \sum_{k = 1}^n \alpha_k^2 \]
+\[ \|x^{n + 1} - x^\ast \|_2^2 \leqslant R^2 - 2 \sum_{k = 1}^n \alpha_k \left( f(x^k) - f^\ast \right) + G^2 \sum_{k = 1}^n \alpha_k^2 \]
+Пусть $f_n^\text{best} = \min\limits_{k = 1\dotsc n} f(x^k)$. Тогда
+\[ \sum_{k = 1}^n \alpha_k \left( f(x^k) - f^\ast \right) \geqslant \sum_{k = 1}^n \alpha_k \left( f_n^\text{best} -f^\ast \right) = \left( f_n^\text{best} -f^\ast \right) \sum_{k = 1}^n \alpha_k \]
+\[ \|x^{n + 1} - x^\ast \|_2^2 \leqslant R^2 - 2 \left( f_n^\text{best} - f^\ast \right) \sum_{k = 1}^n \alpha_k + G^2 \sum_{k = 1}^n \alpha_k^2 \]
+\[ f_n^\text{best} - f^\ast \leqslant \frac{R^2 + G^2 \sum\limits_{k = 1}^n \alpha_k^2}{ 2 \sum\limits_{k = 1}^n \alpha_k } \]
+Рассмотрим теперь несколько возможных значений шага $\alpha_k$
+\begin{itemize}
+    \item $\alpha_k = \alpha$. Получаем
+        \[ f_n^\text{best} - f^\ast \leqslant \frac{R^2 + G^2 \alpha^2 n}{ 2 \alpha n } = \frac{R^2}{2 \alpha n} + \frac12 G^2 \alpha \]
+        Минимизируя по $\alpha$ получим $\alpha^\ast = \frac{R}{G \sqrt{n}}$. При таком шаге субградиентный спуск сходится
+        \[ f_n^\text{best} - f^\ast \leqslant \frac{GR}{\sqrt{n}} \]
+    \item $\alpha_k = \frac{\gamma}{\| g_k \|_2}$. Получаем
+        \[ f_n^\text{best} - f^\ast \leqslant \frac{R^2 + \sum\limits_{k = 1}^n \| g_k \|_2^2 \alpha_k^2}{ 2 \sum\limits_{k = 1}^n \frac{\gamma}{\|g_k\|_2} } = \frac{GR^2 + G\gamma^2 n}{2 \gamma n } = \frac{GR^2}{2 \gamma n} + \frac12 G \gamma \]
+        Минимизируя по $\gamma$ получим $\gamma^\ast = \frac{R}{\sqrt{n}}$. При таком шаге субградиентный спуск сходится
+        \[ f_n^\text{best} - f^\ast \leqslant \frac{GR}{\sqrt{n}} \]
+    \item $\alpha_k = \frac{R}{G\sqrt{k}}$. Получаем для некоторых $C_1,\, C_2,\, C_3$
+        \[ f_n^\text{best} - f^\ast \leqslant \frac{GR + GR \sum\limits_{k = 1}^n \frac{1}{k}}{ 2 \sum\limits_{k = 1}^n \frac{1}{\sqrt{k}} } \leqslant \frac{RG + RGC_1 \log n}{C_2 \sqrt{n}} \leqslant \frac{C_3 RG}{\sqrt{n}} \]
+        То есть при таком шаге субградиентный спуск сходится.
+    \item $\alpha_k = \frac{1}{k}$. Получаем
+        \[ f_n^\text{best} - f^\ast \leqslant \frac{R^2 + G^2 \sum\limits_{k = 1}^n \frac{1}{k^2}}{ 2 \sum\limits_{k = 1}^n \frac{1}{k} } \leqslant \frac{R^2 + G^2 C_1}{C_2 \log n} \]
+        То есть при таком шаге субградиентный спуск сходится.
+    \item $\alpha_k = \frac{f(x^k) - f^\ast}{\| g_k \|_2^2}$. Получаем
+        \[ f_n^\text{best} - f^\ast \leqslant \frac{R^2 + \sum\limits_{k = 1}^n \| g_k \|_2^2 \alpha_k^2}{ 2 \sum\limits_{k = 1}^n \alpha_k } = \frac{R^2 + \sum\limits_{k = 1}^n \frac{\left( f(x^k) - f^\ast \right)^2}{\|g_k\|_2^2}}{2 \sum\limits_{k = 1}^n \frac{f(x^k) - f^\ast}{\|g_k\|_2^2}} \leqslant \dotsc \]
+        При таком шаге субградиентный спуск наверное сходится, иначе бы его не назвали шагом Поляка.
+\end{itemize}
+
+
+\paragraph{2.}
+\[ f(x) = \frac12 \| Ax - b \|_2^2 + \lambda \|x\|_1 \]
+\[ \begin{aligned}
+    \partial f(x)
+    &= \begin{cases}    
+        \left\{ 0 \right\}, & Ax - b = 0 \\
+        \left\{ \| Ax - b \|_2 \cdot A^\top s :\: s \in \R^n,\, \| s \|_2 = 1,\, \langle s,\, Ax - b \rangle = \| Ax - b \|_2 \right\}, & Ax - b \neq 0 
+    \end{cases} \\ 
+    &+ \begin{cases}
+        B_{\| \cdot \|_\infty}(0, \lambda), & x = 0 \\
+        \left\{ \lambda s :\: s \in \R^n,\, \|s\|_\infty = 1,\, \langle s,\, x \rangle = \|x\|_1 \right\}, & x \neq 0
+    \end{cases}
+\end{aligned} \]
+
+
+\paragraph{3.} Воспользуемся следующим алгоритмом: будем минимизировать методом субградиентного спуска функцию $f$
+\[ f(x) = \| A^{1/2} (x - y) \|_2 - 1 + \| \Sigma x \|_\infty - 1 \]
+Реализацию алгоритма для заданых значений смотри ниже
+
+
+\title{Accelerated methods}
+\maketitle
+
+\paragraph{1.} При $x_0 = 3.4$ наблюдаем, что точка перемещается по циклической траектории по треугольнику, перестает сходиться. При изменении $\alpha^\ast$ и $\beta^\ast$ метод снова начинает сходиться. Сам ход смотри ниже
+
+
+\paragraph{2.}
+
+
+\end{document}

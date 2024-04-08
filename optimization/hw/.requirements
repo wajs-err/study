@@ -1,0 +1,17 @@
+[pacman]
+pandoc
+pandoc-cli
+jupyter
+jupyter-nbconvert
+texlive-fontsrecommended
+texlive-plaingeneric
+texlive-mathscience
+coin-or-cbc
+graphviz
+...
+
+[aur]
+wkhtmltopdf
+
+[pip]
+nbconvert

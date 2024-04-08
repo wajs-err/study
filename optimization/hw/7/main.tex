@@ -1,0 +1,660 @@
+\documentclass{article}
+
+    % This code is generated
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage[left=2cm,right=2cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+    % \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Automatic Differentiation}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+
+
+% \usepackage[utf8]{inputenc}
+% \usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{faktor} 
+\usepackage{mathrsfs}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\orb}{Orb}
+\DeclareMathOperator{\stab}{Stab}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\inn}{Inn}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\cone}{cone}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\rint}{rint}
+\DeclareMathOperator{\aff}{aff}
+
+\newcommand*{\QED}{\null\nobreak\hfill\ensuremath{\square}}
+\newcommand*{\R}{\mathbb{R}}
+\renewcommand*{\st}{\text{s.t. }}
+\newcommand*{\1}{\mathbf{1}}
+
+\title{Linear programming}
+\author{Ковалев Алексей}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\paragraph{1.} Условие задачи можно переписать в виде задачи линейного программирования в следующем виде
+\[ \begin{split}
+    5y_1& + 7y_2 + 12y_3 \to \max\limits_{y \in \R^3} \\ 
+    \st & \frac{y_1}{5000} + \frac{y_2}{4000} + \frac{y_3}{2000} \leqslant 6 \\
+    & \frac{30}{1000} y_1 + \frac{50}{1000} y_2 + \frac{220}{1000} y_3 \leqslant 1500 \\
+    & y_1 \geqslant 4500 \\
+    & y_2 \geqslant 0 \\
+    & y_3 \geqslant 4000 \\
+    & y_1 \leqslant 10000 \\
+    & y_2 \leqslant 14000 \\
+    & y_3 \leqslant 7000 \\
+\end{split} \]
+
+
+
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{pyomo}\PY{n+nn}{.}\PY{n+nn}{environ} \PY{k+kn}{import} \PY{o}{*}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model} \PY{o}{=} \PY{n}{ConcreteModel}\PY{p}{(}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{dual} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{dual} \PY{o}{=} \PY{n}{Suffix}\PY{p}{(}\PY{n}{direction}\PY{o}{=}\PY{n}{Suffix}\PY{o}{.}\PY{n}{IMPORT}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{y} \PY{o}{=} \PY{n}{Var}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{domain}\PY{o}{=}\PY{n}{NonNegativeReals}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{net\PYZus{}profit} \PY{o}{=} \PY{n}{Objective}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{l+m+mi}{5} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{7} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{12} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{sense}\PY{o}{=}\PY{n}{maximize}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{storing\PYZus{}inequality} \PY{o}{=} \PY{n}{Constraint}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{l+m+mi}{30} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{/} \PY{l+m+mi}{1000} \PY{o}{+} \PY{l+m+mi}{50} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{/} \PY{l+m+mi}{1000} \PY{o}{+} \PY{l+m+mi}{220} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{/} \PY{l+m+mi}{1000} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{1500}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{week\PYZus{}inequality} \PY{o}{=} \PY{n}{Constraint}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{/} \PY{l+m+mi}{5000} \PY{o}{+} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{/} \PY{l+m+mi}{4000} \PY{o}{+} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{/} \PY{l+m+mi}{2000} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{6}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{marketing\PYZus{}estimations} \PY{o}{=} \PY{n}{ConstraintList}\PY{p}{(}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{marketing\PYZus{}estimations}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{10000}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{marketing\PYZus{}estimations}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{14000}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{marketing\PYZus{}estimations}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{7000}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{commercial\PYZus{}agreements} \PY{o}{=} \PY{n}{ConstraintList}\PY{p}{(}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{commercial\PYZus{}agreements}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{4500}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{commercial\PYZus{}agreements}\PY{o}{.}\PY{n}{add}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{4000}\PY{p}{)}
+\PY{n}{SolverFactory}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cbc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{solve}\PY{p}{(}\PY{n}{model}\PY{p}{)}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}
+\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s+s2}{Solution is }
+\PY{l+s+s2}{    \PYZhy{}\PYZgt{} }\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ headphones covers per week}
+\PY{l+s+s2}{    \PYZhy{}\PYZgt{} }\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ phone covers per week}
+\PY{l+s+s2}{    \PYZhy{}\PYZgt{} }\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{o}{.}\PY{n}{y}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ laptop covers per week}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\# ==========================================================
+\# = Solver Results                                         =
+\# ==========================================================
+\# ----------------------------------------------------------
+\#   Problem Information
+\# ----------------------------------------------------------
+Problem:
+- Name: unknown
+  Lower bound: 142800.0
+  Upper bound: 142800.0
+  Number of objectives: 1
+  Number of constraints: 7
+  Number of variables: 3
+  Number of nonzeros: 3
+  Sense: maximize
+Solution is
+    -> 10000.0 headphones covers per week
+    -> 6400.0 phone covers per week
+    -> 4000.0 laptop covers per week
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sensetive analysis}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{dual}\PY{o}{.}\PY{n}{pprint}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Sensetive analysis
+dual : Direction=Suffix.IMPORT, Datatype=Suffix.FLOAT
+    Key                      : Value
+    commercial\_agreements[1] :  -0.0
+    commercial\_agreements[2] : -18.8
+    marketing\_estimations[1] :   0.8
+    marketing\_estimations[2] :  -0.0
+    marketing\_estimations[3] :  -0.0
+          storing\_inequality : 140.0
+             week\_inequality :  -0.0
+    \end{Verbatim}
+
+
+Видим, что чтобы максимально увеличить прибыль нужно ослабить ограничение commercial\_agreements[2].
+
+
+\paragraph{2.}
+\[ x^\ast = \begin{pmatrix}
+     \frac73 & 0 & \frac13
+\end{pmatrix}^\top \]
+\[ \begin{split}
+    9x_1 & + 3x_2 + 7x_3 \to \max\limits_{x \in \R^3} \\
+    \st & 2x_1 + x_2 + 3x_3 \leqslant 6 \\
+    & 5x_1 + 4x_2 + x_3 \leqslant 12 \\
+    & 3x_2 \leqslant 1 \\
+    & x_1,\, x_2,\, x_3 \geqslant 0
+\end{split} \]
+Во-первых, для $x^\ast$ выполняется все неравенства, значит $x^\ast$ feasible, причем как равенства выполнены второе, третье и пятое неравенства и только они. Тогда
+\[ c^\top A_B^{-1} = -\begin{pmatrix}
+    -9 & -3 & -7
+\end{pmatrix} \cdot \begin{pmatrix}
+    5 & 4 & 1 \\
+    0 & 0 & 3 \\
+    0 & -1 & 0
+\end{pmatrix}^{-1} = \begin{pmatrix}
+    -\frac95 & -\frac{26}{15} & -\frac{21}{5} 
+\end{pmatrix} = \lambda_B^\top \]
+Видим, что все компоненты $\lambda_B$ неположительны, значит по теореме о корректности симплекс-метода $x^\ast$ -- оптимальное решение. \QED
+
+
+\paragraph{3.}
+\[ \begin{split}
+    x_1 - & x_2 \to \min\limits_{x \in \R^2} \\
+    \st & 2x_1 + x_2 \geqslant 3 \\
+    & 3x_1 - x_2 \leqslant 7 \\
+    & x_1 \geqslant 0
+\end{split} \]
+
+\noindent
+Пусть
+\[ A = \begin{bmatrix}
+    -2 & -1 \\ 3 & -1
+\end{bmatrix},\, b = \begin{bmatrix}
+    -3 \\ 7
+\end{bmatrix} \]
+Сделаем два преобразования: сначала заменим первые два неравенства с помощью замены $Ax + z = b,\, z \geqslant 0$, а затем введем $x_2^+ \geqslant 0,\,  x_2^- \geqslant 0$, такие что $x_2 = x_2^+ - x_2^-$. Получим искомую задачу линейного программирования в стандартной форме
+\[ \begin{split}
+    &x_1 - x_2 \to \min\limits_{x \in \R^5} \\
+    \st &     \begin{bmatrix}
+        -2 & -1 & 1 & 1 & 0 \\ 3 & -1 & 1 & 0 & 1
+    \end{bmatrix} \cdot \begin{bmatrix}
+        x_1 \\ x_2^+ \\ x_2^- \\ z_1 \\ z_2
+    \end{bmatrix} = \begin{bmatrix}
+        -3 \\ 7
+    \end{bmatrix} \\
+    & x_1,\, x_2^+,\, x_2^-,\, z \geqslant 0
+\end{split} \]
+
+
+\paragraph{4.}
+\[ \begin{split}
+    4x_1 &+ 5x_2 + 2x_3 \to \max\limits_{x \in \R^3} \\
+    \st &2x_1 - x_2 + 2x_3 \leqslant 9 \\
+    & 3x_1 + 5x_2 + 4x_3 \leqslant 8 \\
+    & x_1 + x_2 + 2x_3 \leqslant 2 \\
+    & x_1,\, x_2,\, x_3 \geqslant 0
+\end{split} \]
+
+\noindent
+Пусть
+\[ A = \begin{pmatrix} 2&-1&2\\ 3&5&4\\ 1&1&2 \end{pmatrix},\, b = \begin{pmatrix}
+    9 \\ 8 \\ 2
+\end{pmatrix},\, c = \begin{pmatrix}
+    4 \\ 5 \\ 2
+\end{pmatrix} \]
+
+\noindent
+Лагранжиан имеет вид
+\[ L(x,\, \lambda,\, \nu) = c^\top x + \lambda^\top (Ax - b) - \nu^\top x \]
+Тогда двойственная задача имеет вид
+\[ \begin{split} 
+    \lambda^\top b &\to \min\limits_{\lambda \in \R^3} \\
+    \st & -c^\top + \lambda^\top A \geqslant 0 \\
+    &\lambda \geqslant 0
+\end{split} \]
+
+\noindent
+Сильная двойственность выполняется, так как выполняется условие LCQ, так как все условия линейны. \\ Найдем решение задачи с помощью pyomo.
+
+
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{model} \PY{o}{=} \PY{n}{ConcreteModel}\PY{p}{(}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{x} \PY{o}{=} \PY{n}{Var}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{domain}\PY{o}{=}\PY{n}{NonNegativeReals}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{obj} \PY{o}{=} \PY{n}{Objective}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{l+m+mi}{4} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{5} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{sense}\PY{o}{=}\PY{n}{maximize}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{inequality\PYZus{}1} \PY{o}{=} \PY{n}{Constraint}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{9}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{inequality\PYZus{}2} \PY{o}{=} \PY{n}{Constraint}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{l+m+mi}{3} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{5} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{4} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{8}\PY{p}{)}
+\PY{n}{model}\PY{o}{.}\PY{n}{inequality\PYZus{}3} \PY{o}{=} \PY{n}{Constraint}\PY{p}{(}\PY{n}{expr} \PY{o}{=} \PY{l+m+mi}{1} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{2} \PY{o}{*} \PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{n}{SolverFactory}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cbc}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{solve}\PY{p}{(}\PY{n}{model}\PY{p}{)}\PY{o}{.}\PY{n}{write}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}
+\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s+s2}{Solution is }
+\PY{l+s+s2}{    \PYZhy{}\PYZgt{} x\PYZus{}1 = }\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{    \PYZhy{}\PYZgt{} x\PYZus{}2 = }\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}
+\PY{l+s+s2}{    \PYZhy{}\PYZgt{} x\PYZus{}3 = }\PY{l+s+si}{\PYZob{}}\PY{n}{model}\PY{o}{.}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\# ==========================================================
+\# = Solver Results                                         =
+\# ==========================================================
+\# ----------------------------------------------------------
+\#   Problem Information
+\# ----------------------------------------------------------
+Problem:
+- Name: unknown
+  Lower bound: 9.0
+  Upper bound: 9.0
+  Number of objectives: 1
+  Number of constraints: 3
+  Number of variables: 3
+  Number of nonzeros: 3
+  Sense: maximize
+Solution is
+    -> x\_1 = 1.0
+    -> x\_2 = 1.0
+    -> x\_3 = 0.0
+    \end{Verbatim}
+
+\end{document}
+

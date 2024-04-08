@@ -1,0 +1,128 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{faktor} 
+\usepackage{mathrsfs}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage[left=2cm,right=2cm, top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\orb}{Orb}
+\DeclareMathOperator{\stab}{Stab}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\inn}{Inn}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rk}{rk}
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator{\conv}{conv}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\cone}{cone}
+\DeclareMathOperator{\sign}{sign}
+
+\newcommand*{\QED}{\null\nobreak\hfill\ensuremath{\square}}
+\newcommand*{\R}{\mathbb{R}}
+
+\title{Conjugate functions}
+\author{Ковалев Алексей}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\paragraph{1.} $ f(x) = |2x|. $
+\[ f^\ast(y) = \sup\limits_{x \in \R} \! \big( \langle x,\, y \rangle - f(x) \big) = \sup\limits_{x \in \R} \! \big( xy - 2|x| \big) \]
+При $ y > 2 $ имеем $ \sup\limits_{x \in \R} \big(xy - 2|x|\big) = \sup\limits_{x \in \R_+} x(y - 2) = +\infty $. \\
+При $ y < 2 $ имеем $ \sup\limits_{x \in R} \big( xy - 2|x| \big) = \sup\limits_{x \in \R_-} x(y + 2) ) = +\infty $. \\
+Пусть при $ |y| \leqslant 2 $ выполняется $ xy - 2|x| > 0 $. Тогда $ xy > 2|x| $, то есть $ y \sign x > 2 $, что противоречит условию $ |y| \leqslant 2 $. Значит при $ |y| \leqslant 2 $ имеем $ \sup\limits_{x \in \R}\big( xy - 2|x| \big) \leqslant 0 $, причем 0 достигается при любом $y$ на $x =  0$. Значит $f^\ast(y) = 0,\, \dom f^\ast = [-2; 2]$. \\
+\textbf{Ответ:} $f^\ast(y) = 0,\, \dom f^\ast = [-2; 2]$.
+
+
+\paragraph{2.} $ f(x) = \inf\limits_{u + v = x} \! \big( g(u) + h(v) \big). $
+\[ -\inf\limits_{u + v = x}\!\big( g(u) + h(v) \big) = \sup\limits_{u + v = x} \! \big( -g(u) - h(v) \big) \]
+\[ \begin{aligned}
+    f^\ast(y) &= \sup\limits_{x \in \dom f} \! \big( \langle x,\, y \rangle - f(x) \big) = \sup\limits_{x \in \dom f} \! \left( \langle x,\, y \rangle - \inf\limits_{u + v = x} \! \big( g(u) + h(v) \big) \right) \\
+    &= \sup\limits_{x \in \dom f} \! \left( \langle x,\, y \rangle + \sup\limits_{u + v = x} \!\big(-g(u) - h(v)\big) \right) = \sup\limits_{x \in \dom f} \sup\limits_{u + v = x} \! \big( \langle x,\, y \rangle - g(u) - h(v) \big) \\ 
+    &\overset{(0)}{=} \sup\limits_{\substack{u \in \dom g \\ v \in \dom h}} \!\big( \langle u,\, y \rangle - g(u) + \langle v,\, y \rangle - h(v) \big) \overset{(1)}{=} \sup\limits_{u \in \dom g} \!\big( \langle u,\, y \rangle - g(u) \big) + \sup\limits_{v \in \dom h} \!\big( \langle v,\, y \rangle - h(v) \big) \\
+    &= g^\ast(y) + h^\ast(y)
+\end{aligned} \]
+Переход (0) объясняется тем, что в левой части равенства супремум берется по всем $x \in \dom f$, а в правой части -- по всем $(u, v) \in \dom g \times \dom h$, причем при всех таких $(u, v)$ определены $g(u),\, h(v)$, а значит и $f(u + v) = f(x)$, и наоборот, если определена $f(x)$, то найдется некоторая $(u, v) \in \dom g \times \dom h$. \\
+Переход (1) объясняется тем, что $\sup\limits_{a \in A,\, b \in B} \! \big( \varphi(a) + \psi(b) \big) = \sup\limits_{a \in A} \varphi(a) + \sup\limits_{b \in B} \psi(b)$, так как $\varphi$ не зависит от $b$, $\psi$ не зависит от $a$. \QED
+
+\paragraph{3.}
+\[ f(x) = \log \sum_{k = 1}^n e^{x_k} \]
+\[ f^\ast(y) = \sup\limits_{x \in \R^n} \!\big( \langle x,\, y \rangle - f(x) \big) = \sup\limits_{x \in \R^n} g(x, y) \]
+Покажем, что если $ \langle \mathbf{1},\, y \rangle \neq 1 $, то функция $g(x, y)$ неограниченна как функция $x$. Пусть $x_1 = x_2 = \dotsc = x_n = a$.
+\[ g(x, y) = \sum_{k = 1}^n x_k y_k - \log \sum_{k = 1}^n e^{x_k} = a \sum_{k = 1}^n y_k - \log(n e^a) = a \left( \sum_{k = 1}^n y_k - 1 \right) - \log n = a \big( \langle \mathbf{1},\, y \rangle - 1 \big) - \log n \]
+Если $\langle \mathbf{1},\, y \rangle - 1 > 0$, то можно взять $a > 0$ сколь угодно большим и получить $g(x, y)$ сколь угодно большим. Если $\langle \mathbf{1},\, y \rangle - 1 < 0$, то можно брать $a < 0$ сколь угодно маленьким и также получить $g(x, y)$ сколь угодно большим.
+Значит $g(x, y)$ неограниченна как функция $x$ и $f^\ast$ не определена при $\langle \mathbf{1},\, y \rangle \neq 1$. \\
+Пусть теперь $\langle \mathbf{1},\, y \rangle = 1$. Покажем, что $f(x)$ -- выпуклая функция. 
+\[ \nabla f_i(x) = \frac{e^{x_i}}{\sum\limits_{k = 1}^n e^{x_k}} \]
+При $i \neq j$ имеем
+\[ \nabla^2 f_{ij}(x) = -\frac{e^{x_i + x_j}}{\left( \sum\limits_{k = 1}^n e^{x_k} \right)^2 } \]
+При $i = j$ имеем
+\[ \nabla^2 f_{ij}(x) = \nabla^2 f_{ii}(x) = \frac{\sum\limits_{k = 1}^n e^{x_i + x_k} - e^{2x_i}}{\left( \sum\limits_{k = 1}^n e^{x_k} \right)^2} \]
+Тогда для любого $0 \neq z \in \R^n$ получаем
+\[ z^\top \nabla^2 f(x) z = \sum\limits_{i \neq j} (z_i^2 + z_j^2 - 2 z_i z_j) e^{x_i + x_j} = \sum\limits_{i \neq j} (z_i - z_j)^2 e^{x_i + x_j} \geqslant 0 \]
+Значит $f(x)$ действительно является выпуклой. Тогда $ \nabla_x g(x, y) = y - \nabla f(x) = 0 $, то есть $ y_i \sum\limits_{k = 1}^n e^{x_k} = e^{x_i} $ или же $\log y_i + \log \sum\limits_{k = 1}^n e^{x_k} = x_i$. Получаем
+\[ f^\ast(y) = \langle x,\, y \rangle - \sum\limits_{k = 1}^n e^{x_k} = \sum\limits_{k = 1}^n y_k \left( \log y_k + \log \sum\limits_{k = 1}^n e^{x_k} \right) - \log\sum\limits_{k = 1}^n e^{x_k} = \sum\limits_{k = 1}^n y_k \log y_k \]
+\textbf{Ответ:} $ f^\ast(y) = \sum\limits_{k = 1}^n y_k \log y_k,\, \dom f^\ast = \{ y :\: y \in \R^n,\, \langle \mathbf{1},\, y \rangle = 1 \} $.
+
+
+\paragraph{4.} $ f(x) = g(Ax) $. Пусть $t = Ax$. Тогда 
+\[ f^\ast(y) = \sup\limits_{x \in \dom f}\big( \langle x,\, y \rangle - g(Ax) \big) = \sup\limits_{t \in \dom g} \big( \langle A^{-1} t,\, y \rangle - g(t) \big) = \sup\limits_{t \in \dom g} \big( \langle t,\, A^{-\top}y \rangle - g(t) \big) = g^\ast\!\left(A^{-\top}y\right) \] \QED
+
+
+\paragraph{5.} $ f(X) = -\ln \det X,\, X \in \mathbb{S}_{++}^n $. $ f(X) $ -- выпуклая функция (конспект к занятию 4), причем $ \nabla f(X) = -X^{-\top} $ (задание 1, Automatic differentiation).
+\[ f^\ast(Y) = \sup\limits_{X \in \mathbb{S}_{++}^n} \big( \langle X,\, Y \rangle - f(X) \big) = \sup\limits_{X \in \mathbb{S}_{++}^n} g(X, Y) \]
+\[ \nabla_X g(X, Y) = \nabla \langle X,\, Y \rangle - \nabla f(X) = Y + X^{-\top} = 0 \]
+\[ X = -Y^{-\top} \]
+Отсюда получаем $\dom f^\ast = \{ Y :\: -Y^{-\top} \in \mathbb{S}_{++}^n \} = \mathbb{S}_{--}^n $.
+\[ f^\ast(Y) = \langle X,\, Y \rangle - f(X) = \langle -Y^{-\top},\, Y \rangle - f(-Y^{-\top}) = -\langle I,\, I \rangle + \ln \frac{(-1)^n}{\det Y} = -n + \ln \frac{(-1)^n}{\det Y} \]
+\textbf{Ответ:} $ f^\ast(Y) = -n + \ln \frac{(-1)^n}{\det Y},\, \dom f^\ast = \mathbb{S}_{--}^n $.
+
+
+\paragraph{6.}
+\[ f_{\text{cshub}}(x) = f_{\text{hub}}(\|x\|_2) = \begin{cases}
+    \frac12 \|x\|_2^2 & \|x\|_2 \leqslant 1 \\
+    \|x\|_2 - \frac12 & \|x\|_2 > 1
+\end{cases} \]
+\[ \nabla f_{\text{cshub}}(x) = \begin{cases}
+    x & \|x\|_2 \leqslant 1 \\
+    \frac{x}{\|x\|_2} & \|x\|_2 > 1
+\end{cases} \]
+Покажем, что $ f_{\text{cshub}}(x) $ -- выпуклая. Для этого воспользуемся дифференциальным критерием выпуклости: $ \forall x,\, y \in \R^n$
+\[ f(x + y) \geqslant f(x) + \langle \nabla f(x),\, y \rangle \]
+Рассмотрим 4 случая:
+\begin{itemize}
+    \item Пусть $ \| x + y \|_2 \leqslant 1,\, \|x\|_2 \leqslant 1 $.
+        \[ f_{\text{cshub}}(x + y) = \frac12 \langle x + y,\, x + y \rangle = \frac12 \|x\|_2^2 + \frac12 \|y\|_2^2 + \langle x,\, y \rangle \geqslant \frac12 \|x\|_2^2 + \langle x,\, y \rangle = f_{\text{cshub}}(x) + \langle \nabla f_{\text{cshub}}(x),\, y \rangle \]
+    \item Пусть $ \| x + y \|_2 \leqslant 1,\, \|x\|_2 > 1 $. Тогда $ \langle x,\, y \rangle < 0 $
+        \[ \forall t \in \R \; \frac12 t^2 \geqslant t - \frac12 \]
+        \[ f_{\text{cshub}}(x + y) = \frac12 \langle x + y,\, x + y \rangle = \frac12 \|x\|_2^2 + \frac12 \|y\|_2^2 + \langle x,\, y \rangle \geqslant \|x\|_2 - \frac12 + \left\langle \frac{x}{\|x\|_2},\, y \right\rangle = f_{\text{cshub}}(x) + \langle \nabla f_{\text{cshub}}(x),\, y \rangle \]
+    \item $ \| x + y \|_2 > 1,\, \|x\|_2 \leqslant 1 $
+        \[ f_{\text{cshub}}(x + y) = \|x + y\|_2 - \frac12 \geqslant \frac12 \|x\|_2^2 + \langle x,\, y \rangle = f_{\text{cshub}}(x) + \langle \nabla f_{\text{cshub}}(x),\, y \rangle \]
+    \item $ \| x + y \|_2 > 1,\, \|x\|_2 > 1 $
+        \[ f_{\text{cshub}}(x + y) = \|x + y\|_2 - \frac12 \geqslant \|x\|_2 - \frac12 + \left\langle \frac{x}{\|x\|_2},\, y \right\rangle = f_{\text{cshub}}(x) + \langle \nabla f_{\text{cshub}}(x),\, y \rangle \]
+\end{itemize}
+Значит $f_{\text{cshub}}$ -- выпуклая функция. \QED \\
+Найдем теперь сопряженную функцию
+\[ f_{\text{cshub}}^\ast(y) = \sup\limits_{x \in \R^n} \! \big( \langle x,\, y \rangle - f_{\text{cshub}}(x) \big) = \sup\limits_{x \in \R^n} g(x, y) \]
+\[ \nabla_x g(x, y) = y - \nabla f_{\text{cshub}}(x) = 0 \]
+\[ y = \begin{cases}
+    x & \|x\|_2 \leqslant 1 \\
+    \frac{x}{\|x\|_2} & \|x\|_2 > 1
+\end{cases} \]
+Отсюда получаем, что $ \| y \|_2 \leqslant 1 $ при любом $x$, так как $\left\| \frac{x}{\|x\|_2} \right\|_2 = 1$. Значит $\dom f^\ast(y) = \{ y :\: y \in \R^n,\, \|y\|_2 \leqslant 1 \} $. При этом сама $f^\ast(y) = \max\left\{ \langle y,\, y \rangle - \frac12 \|y\|_2^2,\, \langle y,\, y \rangle \cdot \|x\|_2 - \|x\|_2 + \frac12 \right\} = \max\left\{ \frac12 \|y\|_2^2,\, \frac12 \right\} = \frac12 \|y\|_2^2 $. \\
+\textbf{Ответ:} $f^\ast(y) = \frac12 \|y\|_2^2,\, \dom f^\ast = \{ y :\: y \in \R^n,\, \|y\|_2 \leqslant 1 \} $.
+
+
+\end{document}
