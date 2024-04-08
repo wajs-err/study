@@ -1,0 +1,6 @@
+grade:
+  tags:
+    - rust2024runner
+  script:
+    - /grade.sh $CI_COMMIT_REF_NAME $CI_PROJECT_DIR
+  timeout: 10 minutes
