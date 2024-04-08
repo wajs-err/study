@@ -1,0 +1,83 @@
+check:
+  image: cr.yandex/crp9onavos88ug32d5r2/grader/go-build
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_TLS_CERTDIR: ""
+    APP_HOST: docker
+    #  services:
+    #- docker:dind
+  script:
+    - golangci-lint run --build-tags private,solution ./...
+      #- go test -v -tags private,solution ./...
+      #- go test -v -race -tags private,solution ./...
+    - sudo -u nobody HOME=/tmp PATH=$PATH git config --global --add safe.directory /builds/slon/shad-go-private
+    - sudo -u nobody HOME=/tmp PATH=$PATH /usr/local/go/bin/go test -tags private,solution ./...
+    - sudo -u nobody HOME=/tmp PATH=$PATH /usr/local/go/bin/go test -tags private,solution -race ./...
+
+rebuild-base-image:
+  tags:
+    - docker
+  when: manual
+  script:
+    - docker build -f build.docker -t cr.yandex/crp9onavos88ug32d5r2/grader/go-build .
+    - docker push cr.yandex/crp9onavos88ug32d5r2/grader/go-build:latest
+
+deploy:
+  only:
+    - master
+  tags:
+    - docker
+  script:
+    - docker pull cr.yandex/crp9onavos88ug32d5r2/grader/go-build:latest
+    - docker build -f testenv.docker -t cr.yandex/crp9onavos88ug32d5r2/grader/go .
+    - docker push cr.yandex/crp9onavos88ug32d5r2/grader/go:latest
+
+build-slides:
+  only:
+    - master
+  tags:
+    - docker
+  script:
+    - docker build lectures -t cr.yandex/crp9onavos88ug32d5r2/go-lectures
+    - docker push cr.yandex/crp9onavos88ug32d5r2/go-lectures
+
+push-to-public:
+  stage: .post
+  image: cr.yandex/crp9onavos88ug32d5r2/grader/go
+  only:
+    - master
+  script:
+    - git remote rm public || true
+    - git remote add -f public https://prime:${CI_PUSH_TOKEN}@gitlab.com/slon/shad-go.git
+    - git config --global user.email 'prime@yandex-team.ru'
+    - git config --global user.name 'Fedor Korotkiy'
+    - git fetch public
+    - git branch -D public || true
+    - git branch public public/master
+    - testtool export --push --move-to-master=false
+    - curl -F token=$TESTER_TOKEN https://go.manytask.org/api/sync_task_columns
+
+push-to-github:
+  stage: .post
+  image: cr.yandex/crp9onavos88ug32d5r2/grader/go
+  only:
+    - master
+  script:
+    - testtool list-private-files > /tmp/private_files.txt
+    - git filter-repo --force --paths-from-file /tmp/private_files.txt --invert-path
+    - echo $GITHUB_PUSH_KEY | base64 -d > private.key && chmod go-rwx private.key
+    - git branch -D main || true
+    - git checkout -b main
+    - git remote rm github || true
+    - env GIT_SSH_COMMAND="ssh -i ${PWD}/private.key -o StrictHostKeyChecking=no" git remote add -f github git@github.com:slon/shad-go.git
+    - env GIT_SSH_COMMAND="ssh -i ${PWD}/private.key -o StrictHostKeyChecking=no" git push github main
+
+deploy-slides:
+  stage: .post
+  only:
+    - master
+  tags:
+    - web
+  script:
+    - docker pull cr.yandex/crp9onavos88ug32d5r2/go-lectures
+    - cd /srv/manytask/go && docker compose up -d
