@@ -12,7 +12,6 @@ use crate::bit_reader::BitReader;
 use crate::huffman_coding::{self, LitLenToken};
 use crate::tracking_writer::TrackingWriter;
 
-////////////////////////////////////////////////////////////////////////////////
 
 #[derive(Debug)]
 pub struct BlockHeader {
@@ -21,6 +20,7 @@ pub struct BlockHeader {
 }
 
 #[derive(Debug)]
+#[allow(dead_code, unused)]
 pub enum CompressionType {
     Uncompressed = 0,
     FixedTree = 1,
@@ -28,13 +28,14 @@ pub enum CompressionType {
     Reserved = 3,
 }
 
-////////////////////////////////////////////////////////////////////////////////
 
+#[allow(dead_code, unused)]
 pub struct DeflateReader<T> {
     bit_reader: BitReader<T>,
     // TODO: your code goes here.
 }
 
+#[allow(dead_code, unused)]
 impl<T: BufRead> DeflateReader<T> {
     pub fn new(bit_reader: BitReader<T>) -> Self {
         // TODO: your code goes here.

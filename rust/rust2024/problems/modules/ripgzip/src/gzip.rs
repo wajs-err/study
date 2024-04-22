@@ -1,8 +1,8 @@
 #![forbid(unsafe_code)]
 
-use std::io::{self, BufRead, Write};
+use std::{error::Error, io::{self, BufRead, Write}};
 
-use anyhow::{bail, ensure, Context, Result};
+use anyhow::{anyhow, bail, ensure, Context, Result};
 use byteorder::{LittleEndian, ReadBytesExt};
 use crc::Crc;
 
@@ -12,9 +12,10 @@ use crate::{
     tracking_writer::TrackingWriter,
 };
 
-////////////////////////////////////////////////////////////////////////////////
 
+#[allow(dead_code)]
 const ID1: u8 = 0x1f;
+#[allow(dead_code)]
 const ID2: u8 = 0x8b;
 
 const CM_DEFLATE: u8 = 8;
@@ -25,7 +26,6 @@ const FEXTRA_OFFSET: u8 = 2;
 const FNAME_OFFSET: u8 = 3;
 const FCOMMENT_OFFSET: u8 = 4;
 
-////////////////////////////////////////////////////////////////////////////////
 
 #[derive(Debug)]
 pub struct MemberHeader {
@@ -41,6 +41,7 @@ pub struct MemberHeader {
 }
 
 impl MemberHeader {
+    #[allow(dead_code)]
     pub fn crc16(&self) -> u16 {
         let crc = Crc::<u32>::new(&crc::CRC_32_ISO_HDLC);
         let mut digest = crc.digest();
@@ -67,6 +68,7 @@ impl MemberHeader {
         (digest.finalize() & 0xffff) as u16
     }
 
+    #[allow(dead_code)]
     pub fn flags(&self) -> MemberFlags {
         let mut flags = MemberFlags(0);
         flags.set_is_text(self.is_text);
@@ -78,7 +80,6 @@ impl MemberHeader {
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Copy, Debug)]
 pub enum CompressionMethod {
@@ -104,7 +105,6 @@ impl From<CompressionMethod> for u8 {
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
 
 #[derive(Debug)]
 pub struct MemberFlags(u8);
@@ -164,7 +164,6 @@ impl MemberFlags {
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
 
 #[derive(Debug)]
 pub struct MemberFooter {
@@ -172,39 +171,94 @@ pub struct MemberFooter {
     pub data_size: u32,
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
+#[allow(dead_code)]
 pub struct GzipReader<T> {
     reader: T,
 }
 
 impl<T: BufRead> GzipReader<T> {
+    #[allow(dead_code)]
     pub fn new(reader: T) -> Self {
         Self { reader }
     }
 
+    #[allow(dead_code)]
     fn parse_header(mut header: &[u8]) -> Result<(MemberHeader, MemberFlags)> {
-        // See RFC 1952, section 2.3.
-        // TODO: your code goes here.
-        unimplemented!()
+        let mut bit_reader = BitReader::new(header);
+
+        let id1 = bit_reader.read_bits(8)?.bits() as u8;
+        if id1 != ID1 {
+            return Err(anyhow!("wrong gzip header"));
+        }
+        let id2 = bit_reader.read_bits(8)?.bits() as u8;
+        if id2 != ID2 {
+            return Err(anyhow!("wrong gzip header"));
+        }
+
+        let cm = match bit_reader.read_bits(8)?.bits() as u8 {
+            CM_DEFLATE => CompressionMethod::Deflate,
+            u => CompressionMethod::Unknown(u),
+        };
+        let flg = MemberFlags(bit_reader.read_bits(8)?.bits() as u8);
+        let mtime = bit_reader.read_bits(32)?.bits() as u32;
+        let xfl = bit_reader.read_bits(8)?.bits() as u8;
+        let os = bit_reader.read_bits(8)?.bits() as u8;
+
+        let mut member_header = MemberHeader {
+            compression_method: cm,
+            modification_time: mtime,
+            extra: None,
+            name: None,
+            comment: None,
+            extra_flags: xfl,
+            os,
+            has_crc: flg.has_crc(),
+            is_text: flg.is_text(),
+        };
+        
+        if flg.has_extra() {
+            let xlen = bit_reader.read_bits(16)?.bits() as usize;
+            // TODO : can be done without allocations?
+            member_header.extra = Some(header[..xlen].to_vec());
+            header.consume(xlen);
+        }
+        if flg.has_name() {
+            let name = String::new();
+            header.read_until(0x00, &mut name.as_bytes().to_owned())?;
+            member_header.name = Some(name); // TODO
+        }
+        if flg.has_comment() {
+            let comment = String::new();
+            header.read_until(0x00, &mut comment.as_bytes().to_owned())?;
+            member_header.comment = Some(comment); // TODO
+        }
+        if flg.has_crc() {
+            let crc16 = bit_reader.read_bits(16)?.bits() as u16;
+            if member_header.crc16() != crc16 {
+                return Err(anyhow!("crc16 differs"));
+            }
+        }
+
+        Ok((member_header, flg))
     }
 
     // TODO: your code goes here.
 }
 
-////////////////////////////////////////////////////////////////////////////////
 
+#[allow(dead_code)]
 pub struct MemberReader<T> {
     inner: T,
 }
 
 impl<T: BufRead> MemberReader<T> {
+    #[allow(dead_code)]
     pub fn inner_mut(&mut self) -> &mut T {
         &mut self.inner
     }
 
+    #[allow(dead_code)]
     pub fn read_footer(mut self) -> Result<(MemberFooter, GzipReader<T>)> {
-        // TODO: your code goes here.
         unimplemented!()
     }
 }

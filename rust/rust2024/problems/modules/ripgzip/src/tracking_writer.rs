@@ -1,84 +1,58 @@
 #![forbid(unsafe_code)]
 
 use std::collections::VecDeque;
-use std::io::{self, Read, Write};
+use std::io::{self, Write};
 
-use anyhow::{anyhow, ensure, Error, Result};
-use crc::{Crc, Digest, CRC_32_ISO_HDLC};
+use anyhow::{anyhow, ensure, Result};
+use crc::{Crc, Digest};
 
-////////////////////////////////////////////////////////////////////////////////
 
+#[allow(dead_code, unused)]
 const HISTORY_SIZE: usize = 32768;
 
+#[allow(dead_code, unused)]
 pub struct TrackingWriter<T> {
     inner: T,
-    buff: VecDeque<u8>,
-    written: usize,
+    // TODO: your code goes here.
 }
 
+#[allow(dead_code, unused)]
 impl<T: Write> Write for TrackingWriter<T> {
-    fn write(&mut self, buff: &[u8]) -> io::Result<usize> {
-        let written = self.inner.write(buff)?;
-        for i in 0..written {
-            self.buff.push_back(buff[i]);
-        }
-        // ???
-        // while self.buff.len() > HISTORY_SIZE {
-        //     self.buff.pop_front();
-        // }
-        self.written += written;
-        Ok(written)
+    fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+        // TODO: your code goes here.
+        unimplemented!()
     }
 
     fn flush(&mut self) -> io::Result<()> {
-        // ???
-        self.buff = VecDeque::with_capacity(HISTORY_SIZE);
-        self.written = 0;
-        self.inner.flush()
+        // TODO: your code goes here.
+        unimplemented!()
     }
 }
 
+#[allow(dead_code, unused)]
 impl<T: Write> TrackingWriter<T> {
     pub fn new(inner: T) -> Self {
-        Self { inner, buff: VecDeque::with_capacity(HISTORY_SIZE), written: 0 }
+        // TODO: your code goes here.
+        unimplemented!()
     }
 
     /// Write a sequence of `len` bytes written `dist` bytes ago.
     pub fn write_previous(&mut self, dist: usize, len: usize) -> Result<()> {
-        dbg!(self.written);
-        if dist > self.written || len > dist {
-            return Err(Error::new(std::io::Error::new(std::io::ErrorKind::Other, "TODO")));
-        }
-        let from = self.buff.len() - dist;
-        let to = from + len;
-        // ???
-        let written = self.inner.write(&self.buff.make_contiguous()[from..to])?;
-        // ???
-        for i in from..from + written {
-            self.buff.push_back(self.buff[i]);
-        }
-        self.written += written;
-        if written == len {
-            Ok(())
-        } else {
-            Err(Error::new(std::io::Error::new(std::io::ErrorKind::Other, "TODO")))
-        }
+        // TODO: your code goes here.
+        unimplemented!()
     }
 
     pub fn byte_count(&self) -> usize {
-        self.written
+        // TODO: your code goes here.
+        unimplemented!()
     }
 
     pub fn crc32(mut self) -> u32 {
-        let crc = Crc::<u32>::new(&CRC_32_ISO_HDLC);
-        let mut digest = crc.digest();
-        // ?????
-        digest.update(&self.buff.make_contiguous()[..]);
-        digest.finalize()
+        // TODO: your code goes here.
+        unimplemented!()
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
 
 #[cfg(test)]
 mod tests {

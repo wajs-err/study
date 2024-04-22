@@ -1,71 +1,94 @@
 #![forbid(unsafe_code)]
 
-use std::{io::{self, BufRead}, usize};
+use std::{cmp::min, io::{self, BufRead}};
 
-////////////////////////////////////////////////////////////////////////////////
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct BitSequence {
-    bits: u16,
+    bits: u32,
     len: u8,
 }
 
 impl BitSequence {
-    pub fn new(bits: u16, len: u8) -> Self {
-        Self { bits, len }
+    pub fn new(bits: u32, len: u8) -> Self {
+        Self { bits: bits & (1 << len) - 1, len }
     }
 
-    pub fn bits(&self) -> u16 {
+    pub fn bits(&self) -> u32 {
         self.bits
     }
 
+    #[allow(dead_code)]
     pub fn len(&self) -> u8 {
         self.len
     }
 
+    #[allow(dead_code, unused)]
     pub fn concat(self, other: Self) -> Self {
-        Self {
-            bits: self.bits | other.bits << other.len,
-            len: self.len + other.len
-        }
+        unimplemented!()
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
+struct SingleByteBuff {
+    byte: u8,
+    len: u8,
+}
 
 pub struct BitReader<T> {
     stream: T,
-    curr_bit: usize,
+    buff: Option<SingleByteBuff>,
 }
 
 impl<T: BufRead> BitReader<T> {
     pub fn new(stream: T) -> Self {
-        Self { stream, curr_bit: 0 }
+        Self { stream, buff: None }
     }
 
     pub fn read_bits(&mut self, mut len: u8) -> io::Result<BitSequence> {
-        dbg!(len);
-        let (curr_byte, bit_in_byte) = (self.curr_bit / 8, self.curr_bit % 8);
-        dbg!(curr_byte, bit_in_byte);
-        let mut bits = (self.stream.fill_buf()?.get(curr_byte).ok_or(io::Error::new(io::ErrorKind::UnexpectedEof, "Unexpected end of block"))? >> bit_in_byte & (((1u16 << len as u16) - 1)) as u8) as u16;
-        if len as usize > 8 - bit_in_byte {
-            self.curr_bit += 8 - bit_in_byte;
-            bits |= self.read_bits(len + bit_in_byte as u8 - 8)?.bits() << 8 - bit_in_byte as u8;
-        } else {
-            self.curr_bit += len as usize;
+        if len > 32 {
+            return Err(io::Error::new(io::ErrorKind::InvalidInput, "too many bits requested"));
         }
-        Ok(BitSequence::new(bits, len))
+
+        let mut bits = 0u32;
+        let result_len = len;
+        
+        if let Some(buff) = &mut self.buff {
+            let from_buff_len = min(len, buff.len);
+            bits |= (buff.byte & (1 << from_buff_len) - 1) as u32;
+            buff.byte >>= from_buff_len;
+            buff.len -= from_buff_len;
+            len -= from_buff_len;
+            if buff.len == 0 {
+                self.buff = None;
+            }
+        }
+
+        while len != 0 {
+            let byte = *self.stream.fill_buf()?.get(0).ok_or(io::Error::new(io::ErrorKind::UnexpectedEof, "unexpected eof"))?;
+            self.stream.consume(1);
+            let curr_len = min(8, len);
+            bits |= ((byte & ((1 << (curr_len as u16)) - 1) as u8) as u32) << (result_len - len);
+            len -= curr_len;
+            if curr_len < 8 {
+                self.buff = Some(SingleByteBuff {
+                    byte: byte >> curr_len,
+                    len: 8 - curr_len,
+                });
+            }
+        }
+
+        Ok(BitSequence::new(bits, result_len))
     }
 
+    /// Discard all the unread bits in the current byte and return a mutable reference
+    /// to the underlying reader.
+    #[allow(dead_code)]
     pub fn borrow_reader_from_boundary(&mut self) -> &mut T {
-        let curr_byte = self.curr_bit / 8;
-        self.curr_bit = 0;
-        self.stream.consume(curr_byte + 1);
+        self.buff = None;
         &mut self.stream
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
 
 #[cfg(test)]
 mod tests {
@@ -84,6 +107,19 @@ mod tests {
         assert_eq!(reader.read_bits(8)?, BitSequence::new(0b01011111, 8));
         assert_eq!(
             reader.read_bits(2).unwrap_err().kind(),
+            io::ErrorKind::UnexpectedEof
+        );
+        Ok(())
+    }
+
+    #[test]
+    fn read_u16() -> io::Result<()> {
+        let data: &[u8] = &[0b01100011, 0b11011011, 0b10101111];
+        let mut reader = BitReader::new(data);
+        assert_eq!(reader.read_bits(1)?, BitSequence::new(0b1, 1));
+        assert_eq!(reader.read_bits(16)?, BitSequence::new(0b1110110110110001, 16));
+        assert_eq!(
+            reader.read_bits(8).unwrap_err().kind(),
             io::ErrorKind::UnexpectedEof
         );
         Ok(())
