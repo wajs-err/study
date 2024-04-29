@@ -24,7 +24,6 @@ func TestSimple(t *testing.T) {
 
 	value.Store(2)
 	require.Equal(t, 2, b.Load())
-    println("start")
 	require.Equal(t, 2, value.Load())
 }
 
@@ -86,38 +85,38 @@ func TestStaleRead(t *testing.T) {
 	wg.Wait()
 }
 
-// var race = false
-//
-// func TestSpeed(t *testing.T) {
-// 	if race {
-// 		t.Skip("this test fails under race detector because of timing issues")
-// 	}
-//
-// 	defer goleak.VerifyNone(t)
-//
-// 	const (
-// 		N = 100
-// 		K = 200
-// 	)
-//
-// 	var value slow.Value
-// 	b := NewBatcher(&value)
-//
-// 	start := time.Now()
-//
-// 	var wg sync.WaitGroup
-// 	for i := 0; i < N; i++ {
-// 		wg.Add(1)
-//
-// 		go func() {
-// 			defer wg.Done()
-//
-// 			for i := 0; i < K; i++ {
-// 				b.Load()
-// 			}
-// 		}()
-// 	}
-// 	wg.Wait()
-//
-// 	require.Truef(t, time.Since(start) < time.Second, "batching it too slow")
-// }
+var race = false
+
+func TestSpeed(t *testing.T) {
+	if race {
+		t.Skip("this test fails under race detector because of timing issues")
+	}
+
+	defer goleak.VerifyNone(t)
+
+	const (
+		N = 100
+		K = 200
+	)
+
+	var value slow.Value
+	b := NewBatcher(&value)
+
+	start := time.Now()
+
+	var wg sync.WaitGroup
+	for i := 0; i < N; i++ {
+		wg.Add(1)
+
+		go func() {
+			defer wg.Done()
+
+			for i := 0; i < K; i++ {
+				b.Load()
+			}
+		}()
+	}
+	wg.Wait()
+
+	require.Truef(t, time.Since(start) < time.Second, "batching it too slow")
+}
